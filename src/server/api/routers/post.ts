@@ -1,6 +1,6 @@
 import { z } from "zod";
-
-import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
+import { createTRPCRouter, publicProcedure, protectedProcedure   } from "~/server/api/trpc";
+import { prisma } from "~/server/prisma";
 
 export const postRouter = createTRPCRouter({
   hello: publicProcedure
@@ -11,13 +11,21 @@ export const postRouter = createTRPCRouter({
       };
     }),
 
+    
+  helloProtected: protectedProcedure.query(({ ctx }) => {
+    return {
+      secret: `${ctx.auth?.userId} is using a protected procedure`,
+    };
+  }),
+
   create: publicProcedure
     .input(z.object({ name: z.string().min(1) }))
-    .mutation(async ({ ctx, input }) => {
-      // simulate a slow db call
+    .mutation(async ({ input }) => {
+      // simulate a slow prisma call
       await new Promise((resolve) => setTimeout(resolve, 1000));
 
-      return ctx.db.post.create({
+
+      return prisma.post.create({
         data: {
           name: input.name,
         },
@@ -25,7 +33,7 @@ export const postRouter = createTRPCRouter({
     }),
 
   getLatest: publicProcedure.query(({ ctx }) => {
-    return ctx.db.post.findFirst({
+    return prisma.post.findFirst({
       orderBy: { createdAt: "desc" },
     });
   }),

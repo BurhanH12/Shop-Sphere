@@ -1,10 +1,13 @@
 import Head from "next/head";
 import Link from "next/link";
 
-import { api } from "~/utils/api";
+import { trpc } from "~/utils/trpc";
 
 export default function Home() {
-  const hello = api.post.hello.useQuery({ text: "from tRPC" });
+  const hello = trpc.post.hello.useQuery({ text: "from tRPC" });
+  const helloProtected = trpc.post.helloProtected.useQuery();
+
+  console.log(helloProtected)
 
   return (
     <>
