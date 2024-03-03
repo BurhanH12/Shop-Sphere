@@ -1,13 +1,13 @@
 import Head from "next/head";
 import Link from "next/link";
-
+import { UserButton } from "@clerk/nextjs";
 import { trpc } from "~/utils/trpc";
 
 export default function Home() {
-  const hello = trpc.post.hello.useQuery({ text: "from tRPC" });
-  const helloProtected = trpc.post.helloProtected.useQuery();
-
-  console.log(helloProtected)
+  const hello = trpc.post.hello.useQuery({ text: "from tRPC" }, {
+    retry: 0,
+    refetchOnWindowFocus: false,
+  });
 
   return (
     <>
@@ -48,6 +48,9 @@ export default function Home() {
           <p className="text-2xl text-white">
             {hello.data ? hello.data.greeting : "Loading tRPC query..."}
           </p>
+          <Link href="/protected" className="text-xl text-white">
+            Check out a protected procedure
+          </Link>
         </div>
       </main>
     </>
