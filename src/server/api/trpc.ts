@@ -35,6 +35,7 @@ interface AuthContext {
  * @see https://create.t3.gg/en/usage/trpc#-servertrpccontextts
  */
 const createInnerTRPCContext = ({ auth }: AuthContext  ) => {
+  console.log("AUTH IN CONTEXT",auth)
   return {
     auth,
     prisma,
@@ -47,9 +48,9 @@ const createInnerTRPCContext = ({ auth }: AuthContext  ) => {
  * @link https://trpc.io/docs/context
  */
 export const createTRPCContext = async (opts: CreateNextContextOptions) => {
-  
 
   return createInnerTRPCContext({ auth: getAuth(opts.req) });
+
 };
 
 /**
@@ -102,3 +103,5 @@ export const createTRPCRouter = t.router;
  */
 export const publicProcedure = t.procedure;
 export const protectedProcedure = t.procedure.use(isAuthed);
+
+export const mergeRouters = t.mergeRouters;

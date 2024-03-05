@@ -13,8 +13,9 @@ export const postRouter = createTRPCRouter({
 
     
   helloProtected: protectedProcedure.query(({ ctx }) => {
+    console.log("AUTH USER",ctx.auth.user);
     return {
-      secret: `${ctx.auth?.userId} is using a protected procedure`,
+      secret: `${ctx.auth?.user?.firstName} is using a protected procedure`,
     };
   }),
 

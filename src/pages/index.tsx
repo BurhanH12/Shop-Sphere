@@ -9,6 +9,10 @@ export default function Home() {
     refetchOnWindowFocus: false,
   });
 
+  const helloProtected = trpc.post.helloProtected.useQuery();
+
+  console.log( helloProtected );
+
   return (
     <>
       <Head>
@@ -47,6 +51,9 @@ export default function Home() {
           </div>
           <p className="text-2xl text-white">
             {hello.data ? hello.data.greeting : "Loading tRPC query..."}
+          </p>
+          <p>
+            {helloProtected.data ? helloProtected.data.secret : 'Loading'}
           </p>
           <Link href="/protected" className="text-xl text-white">
             Check out a protected procedure

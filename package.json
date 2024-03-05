@@ -7,7 +7,11 @@
     "build": "next build",
     "db:push": "prisma db push",
     "db:studio": "prisma studio",
-    "dev": "next dev",
+    "dx": "run-p dx:* --print-label",
+    "dx:next": "run-s migrate-dev && next dev",
+    "migrate-dev": "prisma db push",
+    "dev": "pnpm dx:next",
+    "generate": "prisma generate",
     "postinstall": "prisma generate",
     "lint": "next lint",
     "start": "next start"
@@ -46,7 +50,9 @@
     "prettier-plugin-tailwindcss": "^0.5.11",
     "prisma": "^5.10.2",
     "tailwindcss": "^3.4.1",
-    "typescript": "^5.3.3"
+    "typescript": "^5.3.3",
+    "start-server-and-test": "^2.0.3",
+    "npm-run-all": "^4.1.5"
   },
   "ct3aMetadata": {
     "initVersion": "7.27.0"
